@@ -27,7 +27,6 @@ def append(item, list: list):
 
 # put nums in a list if they are not already in the list
 nums = []
-count = 0
 for text in texts:
     append(text[0], nums)
     append(text[1], nums)
