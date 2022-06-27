@@ -25,13 +25,20 @@ for call in calls:
     sender = call[0]
     receiver = call[1]
     duration = int(call[3])
-    if sender in durations_by_phone.keys():
-        durations_by_phone[sender] += duration
-    else:
+    found_sender = False
+    found_receiver = False
+    for phone in durations_by_phone.keys():
+        if sender == phone:
+            durations_by_phone[sender] += duration
+            found_sender = True
+        if receiver == phone:
+            durations_by_phone[receiver] += duration
+            found_receiver = True
+        if found_sender and found_receiver:
+            break
+    if not found_sender:
         durations_by_phone[sender] = duration
-    if receiver in durations_by_phone.keys():
-        durations_by_phone[receiver] += duration
-    else:
+    if not found_receiver:
         durations_by_phone[receiver] = duration
 
 longest = max(durations_by_phone, key=durations_by_phone.get)
