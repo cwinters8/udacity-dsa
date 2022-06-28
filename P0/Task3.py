@@ -46,9 +46,12 @@ The percentage should have 2 decimal digits
 """
 
 codes = []
+total = 0
+to_bangalore = 0
 for call in calls:
     sender = call[0]
     if sender.startswith("(080)"):
+        total += 1
         receiver = call[1]
         code = ""
         if receiver.startswith("(0"):
@@ -57,6 +60,8 @@ for call in calls:
                     break
                 if char != "(":
                     code += char
+            if code == "080":
+                to_bangalore += 1
         elif receiver[5] == " ":
             code = receiver[0:4]
         elif receiver.startswith("140"):
@@ -68,3 +73,11 @@ codes.sort()
 print("The numbers called by people in Bangalore have codes:")
 for code in codes:
     print(code)
+
+print("")
+
+percentage = "{:.2f}".format((to_bangalore / total) * 100)
+print(
+    percentage,
+    "percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.",
+)
