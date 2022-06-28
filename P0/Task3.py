@@ -4,11 +4,11 @@ It's ok if you don't understand how to read files.
 """
 import csv
 
-with open('texts.csv', 'r') as f:
+with open("texts.csv", "r") as f:
     reader = csv.reader(f)
     texts = list(reader)
 
-with open('calls.csv', 'r') as f:
+with open("calls.csv", "r") as f:
     reader = csv.reader(f)
     calls = list(reader)
 
@@ -44,3 +44,27 @@ Print the answer as a part of a message::
 to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
 """
+
+codes = []
+for call in calls:
+    sender = call[0]
+    if sender.startswith("(080)"):
+        receiver = call[1]
+        code = ""
+        if receiver.startswith("(0"):
+            for char in receiver:
+                if char == ")":
+                    break
+                if char != "(":
+                    code += char
+        elif receiver[5] == " ":
+            code = receiver[0:4]
+        elif receiver.startswith("140"):
+            code = "140"
+        if len(code) > 0 and code not in codes:
+            codes.append(code)
+
+codes.sort()
+print("The numbers called by people in Bangalore have codes:")
+for code in codes:
+    print(code)
